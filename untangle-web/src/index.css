@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+/* Quick = 초록 계열, Focus = 노랑 계열 (노트 형광펜 색을 디지털화) */
+@theme {
+  --color-quick: #bbf7d0;
+  --color-quick-strong: #16a34a;
+  --color-focus: #fef08a;
+  --color-focus-strong: #ca8a04;
+}
+
+body {
+  margin: 0;
+  background: #fafaf9;
+  color: #1c1917;
+  -webkit-tap-highlight-color: transparent;
+}
