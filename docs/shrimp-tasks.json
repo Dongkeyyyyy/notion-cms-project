@@ -1,0 +1,304 @@
+{
+  "tasks": [
+    {
+      "id": "2505144b-f019-44da-bba5-d787b5ef7d05",
+      "name": "Phase 1-1 의존성 설치와 환경변수 설정",
+      "description": "npm install을 실행하고 @notionhq/client를 설치한다. node_modules/next/dist/docs/에서 revalidate, 페이지, 메타데이터 가이드를 확인한다. .env.local에 NOTION_TOKEN, NOTION_DATABASE_ID를 작성하도록 안내하고(NEXT_PUBLIC_ 접두사 금지), .gitignore에 .env*가 포함되어 추적되지 않는지 확인한다. 사용자 작업(Notion Integration 생성, DB 생성, 연결 추가, 샘플 5~10건 입력)은 절차만 안내한다. 손익 단위(USDT 또는 %)와 실제 Notion 속성명은 사용자에게 확인한다. 검증하지 못한 항목은 미검증으로 보고한다.",
+      "notes": "토큰 값을 출력하거나 로그에 남기지 않는다. Notion 호출을 검증할 토큰이 없으면 가짜 데이터로 통과시키지 않는다.",
+      "status": "pending",
+      "dependencies": [],
+      "createdAt": "2026-11-01T12:26:41.023Z",
+      "updatedAt": "2026-11-01T12:26:41.023Z",
+      "relatedFiles": [
+        {
+          "path": "package.json",
+          "type": "TO_MODIFY",
+          "description": "@notionhq/client 의존성 추가"
+        },
+        {
+          "path": ".gitignore",
+          "type": "REFERENCE",
+          "description": ".env* 무시 확인"
+        },
+        {
+          "path": "docs/ROADMAP.md",
+          "type": "REFERENCE",
+          "description": "1단계 작업과 완료 기준"
+        }
+      ],
+      "implementationGuide": "1) npm install 2) npm install @notionhq/client 3) node_modules/@notionhq/client 타입에서 쿼리 메서드 이름을 확인해 기록 4) git status로 .env.local이 추적되지 않는지 확인 5) 사용자에게 손익 단위와 속성명 질문",
+      "verificationCriteria": "npm ls @notionhq/client가 설치를 보여주고, git status에 .env.local이 나타나지 않으며, node_modules/next/dist/docs/ 존재 여부가 확인된다. 손익 단위 질문이 사용자에게 전달되었다.",
+      "analysisResult": "docs/ROADMAP.md의 5단계를 순서대로 진행해 Notion DB의 코인 매매 기록을 읽는 트레이딩 저널(/journal, 읽기 전용 MVP)을 완성한다. 규칙은 shrimp-rules.md, CLAUDE.md, docs/PRD.md를 따른다. 컴포넌트 계층 ui<-common<-layout<-app 단방향, 사이트 이름과 메뉴는 config/site.ts에서만 수정, 코드 주석과 커밋 메시지는 한국어, 들여쓰기 2칸. 커밋은 사용자가 요청할 때만 한다. 손익 단위(USDT 또는 %)는 사용자 확인 전 미결정이다. 비목표(차트, 쓰기, 인증, 시세)는 Phase 4 전에 구현하지 않는다."
+    },
+    {
+      "id": "b87554f7-b561-4902-9675-dd076c9e63f8",
+      "name": "Phase 1-2 journal 라우트 골격과 메뉴 등록",
+      "description": "app/(marketing)/journal/page.tsx를 빈 페이지로 만들고 config/site.ts의 navItems에 { title: \"저널\", href: \"/journal\" }을 추가한다. about/page.tsx 패턴(Section, Breadcrumbs, PageHeader)을 따르고 metadata.title은 사이트명을 빼고 \"트레이딩 저널\"로 한다. 메뉴는 config/site.ts에서만 수정한다.",
+      "notes": "app/(marketing)/ 안에 만든다. 데모 페이지와 기존 메뉴는 삭제하지 않는다.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "2505144b-f019-44da-bba5-d787b5ef7d05"
+        }
+      ],
+      "createdAt": "2026-11-01T12:26:41.024Z",
+      "updatedAt": "2026-11-01T12:26:41.024Z",
+      "relatedFiles": [
+        {
+          "path": "app/(marketing)/journal/page.tsx",
+          "type": "CREATE",
+          "description": "빈 저널 페이지"
+        },
+        {
+          "path": "config/site.ts",
+          "type": "TO_MODIFY",
+          "description": "navItems에 저널 추가"
+        },
+        {
+          "path": "app/(marketing)/about/page.tsx",
+          "type": "REFERENCE",
+          "description": "페이지 패턴 참고"
+        }
+      ],
+      "implementationGuide": "/new-page journal 패턴 사용. app 하위 page 파일은 세미콜론을 사용하고 config/site.ts는 사용하지 않는다. sitemap.ts는 navItems를 쓰므로 수정하지 않는다.",
+      "verificationCriteria": "npm run dev 후 /journal이 열리고 헤더와 모바일 메뉴에 저널이 보이며, npx tsc --noEmit과 npm run lint가 통과한다.",
+      "analysisResult": "docs/ROADMAP.md의 5단계를 순서대로 진행해 Notion DB의 코인 매매 기록을 읽는 트레이딩 저널(/journal, 읽기 전용 MVP)을 완성한다. 규칙은 shrimp-rules.md, CLAUDE.md, docs/PRD.md를 따른다. 컴포넌트 계층 ui<-common<-layout<-app 단방향, 사이트 이름과 메뉴는 config/site.ts에서만 수정, 코드 주석과 커밋 메시지는 한국어, 들여쓰기 2칸. 커밋은 사용자가 요청할 때만 한다. 손익 단위(USDT 또는 %)는 사용자 확인 전 미결정이다. 비목표(차트, 쓰기, 인증, 시세)는 Phase 4 전에 구현하지 않는다."
+    },
+    {
+      "id": "0547154f-c019-4118-b0f5-5fee44b50bd5",
+      "name": "Phase 2-1 lib/notion.ts 구현",
+      "description": "Trade 타입(PRD 5.1)을 export하고, Notion 속성명 상수 객체와 getTrades(): Promise<Trade[]>를 구현한다. NOTION_TOKEN, NOTION_DATABASE_ID는 getTrades() 함수 안에서 읽고 누락 시 명확한 Error를 던진다. start_cursor 기반 페이지네이션으로 100건 초과도 전부 조회하고, 날짜 내림차순(날짜 null은 맨 뒤)으로 정렬한다. 포지션이 롱/숏이 아니면 null, pnl 미입력은 0, reason은 빈 문자열로 매핑한다.",
+      "notes": "lib/notion.ts는 use client 파일에서 import하지 않는다(import type만 예외). 한 렌더에서 1회만 호출되도록 page.tsx에서 호출한다.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "2505144b-f019-44da-bba5-d787b5ef7d05"
+        }
+      ],
+      "createdAt": "2026-11-01T12:26:41.024Z",
+      "updatedAt": "2026-11-01T12:26:41.024Z",
+      "relatedFiles": [
+        {
+          "path": "lib/notion.ts",
+          "type": "CREATE",
+          "description": "Notion 조회와 Trade 타입"
+        },
+        {
+          "path": "docs/PRD.md",
+          "type": "REFERENCE",
+          "description": "5장 필드와 5.1 타입"
+        }
+      ],
+      "implementationGuide": "설치된 @notionhq/client 타입을 읽어 쿼리 메서드와 ID 의미를 확정한다(추측 금지). 페이지 응답의 properties를 상수 속성명으로 읽어 Trade로 매핑하는 헬퍼를 둔다. 에러 메시지에 토큰 값을 넣지 않는다.",
+      "verificationCriteria": "getTrades() 결과 건수가 Notion 샘플 건수와 같고, 환경변수를 제거하면 의도한 에러를 던지며, 100건 초과 페이지네이션 코드가 있다. npx tsc --noEmit과 npm run lint가 통과하고 임시 확인 코드는 제거되었다.",
+      "analysisResult": "docs/ROADMAP.md의 5단계를 순서대로 진행해 Notion DB의 코인 매매 기록을 읽는 트레이딩 저널(/journal, 읽기 전용 MVP)을 완성한다. 규칙은 shrimp-rules.md, CLAUDE.md, docs/PRD.md를 따른다. 컴포넌트 계층 ui<-common<-layout<-app 단방향, 사이트 이름과 메뉴는 config/site.ts에서만 수정, 코드 주석과 커밋 메시지는 한국어, 들여쓰기 2칸. 커밋은 사용자가 요청할 때만 한다. 손익 단위(USDT 또는 %)는 사용자 확인 전 미결정이다. 비목표(차트, 쓰기, 인증, 시세)는 Phase 4 전에 구현하지 않는다."
+    },
+    {
+      "id": "d5efe2ae-7e90-4c89-b8b7-fc9020e7c15a",
+      "name": "Phase 2-2 통계와 포맷터 순수 함수",
+      "description": "lib/trade-stats.ts에 calcSummary(trades)(총 손익, 승률 = pnl>0 건수/전체, 거래 수, 평균 손익; 0건이면 0 반환)와 calcEmotionStats(trades)(감정별 거래 수, 승률, 평균 손익; 감정 null은 \"미분류\")를 구현한다. lib/format.ts에 부호 포함 손익 포맷터(+1,200 / -350 / 0)를 만든다. 단위가 확정되기 전에는 단위 접미사 없이 부호와 숫자만 출력한다.",
+      "notes": "lib/ 파일은 세미콜론을 사용하지 않는다.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "0547154f-c019-4118-b0f5-5fee44b50bd5"
+        }
+      ],
+      "createdAt": "2026-11-01T12:26:41.024Z",
+      "updatedAt": "2026-11-01T12:26:41.024Z",
+      "relatedFiles": [
+        {
+          "path": "lib/trade-stats.ts",
+          "type": "CREATE",
+          "description": "요약과 감정별 통계"
+        },
+        {
+          "path": "lib/format.ts",
+          "type": "CREATE",
+          "description": "표시용 포맷터"
+        },
+        {
+          "path": "docs/PRD.md",
+          "type": "REFERENCE",
+          "description": "3.2, 3.3 계산식"
+        }
+      ],
+      "implementationGuide": "Trade는 import type { Trade } from \"@/lib/notion\"로만 가져온다. Notion SDK, React, process.env를 import하지 않는다. 입력 배열을 변경하지 않는다.",
+      "verificationCriteria": "빈 배열, 전부 손실, 전부 이익, 혼합 케이스의 결과가 수기 계산과 일치한다. npx tsc --noEmit과 npm run lint가 통과하고 임시 검증 코드는 제거되었다.",
+      "analysisResult": "docs/ROADMAP.md의 5단계를 순서대로 진행해 Notion DB의 코인 매매 기록을 읽는 트레이딩 저널(/journal, 읽기 전용 MVP)을 완성한다. 규칙은 shrimp-rules.md, CLAUDE.md, docs/PRD.md를 따른다. 컴포넌트 계층 ui<-common<-layout<-app 단방향, 사이트 이름과 메뉴는 config/site.ts에서만 수정, 코드 주석과 커밋 메시지는 한국어, 들여쓰기 2칸. 커밋은 사용자가 요청할 때만 한다. 손익 단위(USDT 또는 %)는 사용자 확인 전 미결정이다. 비목표(차트, 쓰기, 인증, 시세)는 Phase 4 전에 구현하지 않는다."
+    },
+    {
+      "id": "1aca5a5d-c437-4094-b483-4fb79db127c3",
+      "name": "Phase 2-3 Table 추가와 도메인 UI 부품",
+      "description": "/add-ui table로 components/ui/table.tsx를 추가한다(기존 파일 덮어쓰기 금지). app/(marketing)/journal/ 안에 PnlText(이익 초록, 손실 text-destructive, 0 text-muted-foreground, 부호 필수; 색상 클래스는 이 컴포넌트에만 정의)와 감정 Badge 컴포넌트를 만든다.",
+      "notes": "components/ui 파일은 직접 수정하지 않는다. 계층 위반 import 금지.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "d5efe2ae-7e90-4c89-b8b7-fc9020e7c15a"
+        }
+      ],
+      "createdAt": "2026-11-01T12:26:41.024Z",
+      "updatedAt": "2026-11-01T12:26:41.024Z",
+      "relatedFiles": [
+        {
+          "path": "components/ui/table.tsx",
+          "type": "CREATE",
+          "description": "shadcn Table"
+        },
+        {
+          "path": "app/(marketing)/journal/pnl-text.tsx",
+          "type": "CREATE",
+          "description": "손익 표시"
+        },
+        {
+          "path": "app/(marketing)/journal/emotion-badge.tsx",
+          "type": "CREATE",
+          "description": "감정 배지"
+        }
+      ],
+      "implementationGuide": "PnlText는 lib/format.ts 포맷터를 사용한다. 감정 배지는 Badge variant secondary 또는 outline을 쓴다. 도메인 컴포넌트는 components/common이 아니라 journal 폴더 직속에 둔다.",
+      "verificationCriteria": "/check가 lint, tsc, 계층 위반 모두 통과를 보고한다. components/ui의 기존 파일에 변경이 없다.",
+      "analysisResult": "docs/ROADMAP.md의 5단계를 순서대로 진행해 Notion DB의 코인 매매 기록을 읽는 트레이딩 저널(/journal, 읽기 전용 MVP)을 완성한다. 규칙은 shrimp-rules.md, CLAUDE.md, docs/PRD.md를 따른다. 컴포넌트 계층 ui<-common<-layout<-app 단방향, 사이트 이름과 메뉴는 config/site.ts에서만 수정, 코드 주석과 커밋 메시지는 한국어, 들여쓰기 2칸. 커밋은 사용자가 요청할 때만 한다. 손익 단위(USDT 또는 %)는 사용자 확인 전 미결정이다. 비목표(차트, 쓰기, 인증, 시세)는 Phase 4 전에 구현하지 않는다."
+    },
+    {
+      "id": "bc9896bc-2ee9-42df-80c1-c9b0bbe5ac7e",
+      "name": "Phase 3-1 journal 페이지 조립",
+      "description": "app/(marketing)/journal/page.tsx를 서버 컴포넌트로 구현한다. getTrades()를 1회 호출하고 calcSummary, calcEmotionStats 결과를 사용해 요약 카드 4개(총 손익, 승률, 거래 수, 평균 손익; grid-cols-1 sm:grid-cols-2 lg:grid-cols-4), 감정별 성과 표, 매매 기록 목록(제목, 날짜, 코인, 포지션, 진입가, 청산가, 손익, 감정 배지, 매매 근거)을 표시한다. 60초 ISR은 export const revalidate = 60이 이 Next.js 버전에서 유효한지 docs로 먼저 확인한 뒤 적용한다.",
+      "notes": "revalidate 방식이 PRD와 다르면 PRD 4.3과 ROADMAP 문구를 함께 수정한다.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "b87554f7-b561-4902-9675-dd076c9e63f8"
+        },
+        {
+          "taskId": "1aca5a5d-c437-4094-b483-4fb79db127c3"
+        }
+      ],
+      "createdAt": "2026-11-01T12:26:41.024Z",
+      "updatedAt": "2026-11-01T12:26:41.024Z",
+      "relatedFiles": [
+        {
+          "path": "app/(marketing)/journal/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "저널 페이지 구현"
+        },
+        {
+          "path": "lib/notion.ts",
+          "type": "DEPENDENCY",
+          "description": "getTrades"
+        },
+        {
+          "path": "lib/trade-stats.ts",
+          "type": "DEPENDENCY",
+          "description": "통계 함수"
+        }
+      ],
+      "implementationGuide": "일관된 순서: 카드 -> 감정 표 -> 목록. 전용 컴포넌트는 journal 폴더 직속에 분리한다. 통계 계산을 컴포넌트에 직접 쓰지 않는다. 다크모드와 모바일 폭을 고려한다.",
+      "verificationCriteria": "웹 목록 건수가 Notion 기록 건수와 같고, 총 손익과 승률이 수기 계산과 일치하며, 손익이 색상과 부호로 모두 구분된다.",
+      "analysisResult": "docs/ROADMAP.md의 5단계를 순서대로 진행해 Notion DB의 코인 매매 기록을 읽는 트레이딩 저널(/journal, 읽기 전용 MVP)을 완성한다. 규칙은 shrimp-rules.md, CLAUDE.md, docs/PRD.md를 따른다. 컴포넌트 계층 ui<-common<-layout<-app 단방향, 사이트 이름과 메뉴는 config/site.ts에서만 수정, 코드 주석과 커밋 메시지는 한국어, 들여쓰기 2칸. 커밋은 사용자가 요청할 때만 한다. 손익 단위(USDT 또는 %)는 사용자 확인 전 미결정이다. 비목표(차트, 쓰기, 인증, 시세)는 Phase 4 전에 구현하지 않는다."
+    },
+    {
+      "id": "9a0975c2-5aaf-4566-bc02-1d8217ee2868",
+      "name": "Phase 3-2 상태 화면과 MVP 검증 및 문서 갱신",
+      "description": "journal/loading.tsx(Skeleton으로 카드, 표, 목록 모양), 빈 상태(EmptyState), 오류 상태(page.tsx에서 try/catch 후 ErrorState; onRetry 전달 금지, 환경변수 누락과 API 실패는 다른 고정 한국어 문구, 원본 에러 노출 금지)를 구현한다. 환경변수 제거와 빈 DB에서 크래시 없이 안내 화면이 나오는지 확인하고, Playwright MCP로 라이트/다크/모바일 스크린샷을 확인한다. /check build를 통과시킨 뒤 ROADMAP 체크박스와 README.md, CLAUDE.md, docs/PRD.md의 현재 상태 문구를 사실에 맞게 갱신한다.",
+      "notes": "README의 폴더 구조와 app/(marketing)/docs/page.tsx의 폴더 구조 CodeBlock도 새 파일을 반영한다.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "bc9896bc-2ee9-42df-80c1-c9b0bbe5ac7e"
+        }
+      ],
+      "createdAt": "2026-11-01T12:26:41.024Z",
+      "updatedAt": "2026-11-01T12:26:41.024Z",
+      "relatedFiles": [
+        {
+          "path": "app/(marketing)/journal/loading.tsx",
+          "type": "CREATE",
+          "description": "스켈레톤"
+        },
+        {
+          "path": "docs/ROADMAP.md",
+          "type": "TO_MODIFY",
+          "description": "완료 체크박스"
+        },
+        {
+          "path": "CLAUDE.md",
+          "type": "TO_MODIFY",
+          "description": "현재 상태 문구"
+        },
+        {
+          "path": "README.md",
+          "type": "TO_MODIFY",
+          "description": "현재 상태와 폴더 구조"
+        }
+      ],
+      "implementationGuide": "서버 컴포넌트에서 함수 prop을 클라이언트 컴포넌트로 넘기지 않는다. 검증하지 못한 항목은 미검증으로 보고한다. 커밋은 사용자가 요청할 때만 하고, 아니면 한국어 커밋 메시지만 제안한다.",
+      "verificationCriteria": "ROADMAP 3단계 완료 기준을 모두 충족하고 /check build가 통과한다. 환경변수 제거와 빈 DB에서 각각 오류와 빈 상태 화면이 표시된다.",
+      "analysisResult": "docs/ROADMAP.md의 5단계를 순서대로 진행해 Notion DB의 코인 매매 기록을 읽는 트레이딩 저널(/journal, 읽기 전용 MVP)을 완성한다. 규칙은 shrimp-rules.md, CLAUDE.md, docs/PRD.md를 따른다. 컴포넌트 계층 ui<-common<-layout<-app 단방향, 사이트 이름과 메뉴는 config/site.ts에서만 수정, 코드 주석과 커밋 메시지는 한국어, 들여쓰기 2칸. 커밋은 사용자가 요청할 때만 한다. 손익 단위(USDT 또는 %)는 사용자 확인 전 미결정이다. 비목표(차트, 쓰기, 인증, 시세)는 Phase 4 전에 구현하지 않는다."
+    },
+    {
+      "id": "98cee1e1-3b0e-4580-8f5f-32dc18bcca0e",
+      "name": "Phase 4 추가 기능 개발",
+      "description": "MVP 안정화 후 4-1 기간, 코인, 감정 필터(searchParams, 통계 재계산) -> 4-2 누적 손익 곡선과 월별 차트(집계는 trade-stats.ts 순수 함수, 합계가 총 손익과 일치) -> 4-3 웹 기록 작성(react-hook-form + zod -> Server Action -> Notion 쓰기, revalidatePath, 인증과 접근 제어 검토) -> 4-4 원칙 체크리스트 -> 4-5 코인 시세(CoinGecko)를 순서대로 하나씩 완료하고 검증한 뒤 다음으로 넘어간다.",
+      "notes": "필터 결과 0건이면 EmptyState를 표시한다. 쓰기 도입 시 서버 전용 토큰 보호를 유지한다.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "9a0975c2-5aaf-4566-bc02-1d8217ee2868"
+        }
+      ],
+      "createdAt": "2026-11-01T12:26:41.024Z",
+      "updatedAt": "2026-11-01T12:26:41.024Z",
+      "relatedFiles": [
+        {
+          "path": "docs/ROADMAP.md",
+          "type": "REFERENCE",
+          "description": "4단계 기능 순서와 완료 기준"
+        },
+        {
+          "path": "lib/trade-stats.ts",
+          "type": "TO_MODIFY",
+          "description": "집계 함수 추가"
+        }
+      ],
+      "implementationGuide": "각 항목 시작 전에 사용자에게 범위를 확인한다. 새 의존성(차트 라이브러리 등)은 설치 전 사용자 확인을 받는다. 항목마다 /check build와 Playwright 확인을 하고 기존 MVP 동작이 깨지지 않았는지 재확인한다.",
+      "verificationCriteria": "선택한 각 기능이 ROADMAP 4단계 완료 기준을 만족하고, lint, tsc, build가 통과하며, MVP의 통계 값과 상태 화면이 유지된다.",
+      "analysisResult": "docs/ROADMAP.md의 5단계를 순서대로 진행해 Notion DB의 코인 매매 기록을 읽는 트레이딩 저널(/journal, 읽기 전용 MVP)을 완성한다. 규칙은 shrimp-rules.md, CLAUDE.md, docs/PRD.md를 따른다. 컴포넌트 계층 ui<-common<-layout<-app 단방향, 사이트 이름과 메뉴는 config/site.ts에서만 수정, 코드 주석과 커밋 메시지는 한국어, 들여쓰기 2칸. 커밋은 사용자가 요청할 때만 한다. 손익 단위(USDT 또는 %)는 사용자 확인 전 미결정이다. 비목표(차트, 쓰기, 인증, 시세)는 Phase 4 전에 구현하지 않는다."
+    },
+    {
+      "id": "e70fc0e2-05eb-4d27-8aab-36e184aa718b",
+      "name": "Phase 5 최적화 및 배포",
+      "description": "Notion 호출 횟수, Lighthouse 성능, 접근성, SEO를 점검하고 클라이언트 번들에 토큰이 없는지 확인한다. config/site.ts의 url을 실제 도메인으로 교체한다(siteConfig.name을 한글로 바꾸면 opengraph-image.tsx 글꼴도 수정). 데모 페이지(about, docs, examples)와 메뉴 정리 여부를 사용자에게 확인해 결정한다. Vercel에 환경변수를 등록해 배포하고 배포 URL에서 /journal과 오류 상태를 검증한다. README에 설치, 환경변수, Notion 설정 절차를 정리한다.",
+      "notes": "커밋과 푸시, 배포는 사용자가 요청할 때만 수행한다.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "98cee1e1-3b0e-4580-8f5f-32dc18bcca0e"
+        }
+      ],
+      "createdAt": "2026-11-01T12:26:41.024Z",
+      "updatedAt": "2026-11-01T12:26:41.024Z",
+      "relatedFiles": [
+        {
+          "path": "config/site.ts",
+          "type": "TO_MODIFY",
+          "description": "url 교체"
+        },
+        {
+          "path": "README.md",
+          "type": "TO_MODIFY",
+          "description": "설치와 설정 절차"
+        },
+        {
+          "path": "docs/ROADMAP.md",
+          "type": "REFERENCE",
+          "description": "5단계 완료 기준"
+        }
+      ],
+      "implementationGuide": "배포나 외부 서비스 설정은 실행 전에 사용자 확인을 받는다. 배포 환경 전용 문제(환경변수 누락, 캐시, 도메인)는 실제 배포 후 확인한다.",
+      "verificationCriteria": "배포 URL에서 /journal이 정상 표시되고 Notion 수정이 60초 내 반영되며, 토큰이 번들에 노출되지 않고, lint, tsc, build가 통과한다. 환경변수 누락 시 ErrorState가 표시된다.",
+      "analysisResult": "docs/ROADMAP.md의 5단계를 순서대로 진행해 Notion DB의 코인 매매 기록을 읽는 트레이딩 저널(/journal, 읽기 전용 MVP)을 완성한다. 규칙은 shrimp-rules.md, CLAUDE.md, docs/PRD.md를 따른다. 컴포넌트 계층 ui<-common<-layout<-app 단방향, 사이트 이름과 메뉴는 config/site.ts에서만 수정, 코드 주석과 커밋 메시지는 한국어, 들여쓰기 2칸. 커밋은 사용자가 요청할 때만 한다. 손익 단위(USDT 또는 %)는 사용자 확인 전 미결정이다. 비목표(차트, 쓰기, 인증, 시세)는 Phase 4 전에 구현하지 않는다."
+    }
+  ]
+}
