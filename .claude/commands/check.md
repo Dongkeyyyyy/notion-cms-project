@@ -18,7 +18,7 @@ allowed-tools: Bash(npm run lint:*), Bash(npx tsc:*), Bash(npm run build:*), Gre
    - `components/layout/` 안에서 `@/app` import
 4. 인자에 `build`가 포함되어 있으면 `npm run build`도 실행합니다.
 
-`untangle-web/`은 lint·타입 검사 대상이 아니므로 결과에 포함하지 않습니다. 워크트리(`.claude/worktrees/`)도 검사에서 제외해서 해석합니다.
+워크트리(`.claude/worktrees/`)는 검사에서 제외해서 해석합니다.
 
 ## 보고 형식
 
