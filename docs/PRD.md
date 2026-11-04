@@ -138,9 +138,12 @@ components/ui, common, layout  (카드·배지·빈/오류 상태)
 | 포지션 (Side) | select | 롱 / 숏 |
 | 진입가 (Entry) | number | 진입 가격 |
 | 청산가 (Exit) | number | 청산 가격 |
-| 손익 (PnL) | number | 손익 금액(USDT) 또는 % — 한 가지로 통일 |
+| 손익 (PnL) | number | 손익 금액. 형식은 원(₩), 손실은 음수. 원화 금액으로만 통일 (USDT·% 혼용 금지) |
+| 통화 (Currency) | select | `원` / `달러`. 비어 있으면 `원`으로 간주. MVP는 `원`만 사용, 달러 집계는 4-7에서 구현 |
 | 감정 (Emotion) | select | 침착, FOMO, 공포, 복수 등 |
-| 매매 근거 (Reason) | rich_text | 진입 이유와 복기 메모 |
+| 매매 근거 (Reason) | rich_text | 목록에 표시할 한두 줄 요약 |
+
+> 긴 복기(진입·종료 근거, 차트 사진)는 속성이 아니라 **각 행의 페이지 본문**에 작성한다. 별도 복기 DB는 만들지 않는다. 본문은 목록 조회에 포함되지 않으므로 4-6 상세 페이지(`/journal/[id]`)에서 한 건씩 읽는다. MVP 화면에는 나오지 않는다.
 
 ### 5.1 타입 정의 (예시)
 ```ts
@@ -153,6 +156,7 @@ export type Trade = {
   entry: number | null
   exit: number | null
   pnl: number
+  currency: "원" | "달러" // 비어 있으면 "원"
   emotion: string | null
   reason: string
 }
@@ -264,7 +268,7 @@ export type Trade = {
 | 리스크 | 대응 |
 |---|---|
 | Notion API 호출 제한(평균 초당 3회) | ISR 캐시, 페이지 단위 1회 호출 |
-| 손익 단위 혼용(USDT vs %) | DB 필드 설명에 단위를 명시하고 한 가지로 통일 |
+| 손익 단위·통화 혼용 | 손익은 원화 금액으로 통일하고 `통화` 속성으로 구분. 통화가 다른 기록은 합산하지 않고 통화별로 집계 (4-7) |
 | 필드명 변경 시 매핑 실패 | `lib/notion.ts`에서 필드명을 상수로 한 곳에 관리 |
 | Next.js 16 API 차이 | 구현 전 공식 문서 확인, 기존 코드 패턴 따르기 |
 
@@ -277,3 +281,5 @@ export type Trade = {
 3. 코인 시세(CoinGecko) 연동, 워치리스트
 4. 매매 전 원칙 체크리스트
 5. 기간·코인·감정 필터
+6. 매매 상세 페이지(`/journal/[id]`): 각 행의 페이지 본문(긴 복기, 차트 사진)을 한 건씩 읽어 표시
+7. 달러(`통화`) 손익 통화별 집계
